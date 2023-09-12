@@ -1,5 +1,4 @@
-# MPC-D-CBF
-The code will soon be open source.
+# MPC-D-CBF: Dynamic Control Barrier Function-based Model Predictive Control to Safety-Critical Obstacle-Avoidance of Mobile Robot
 
 arXiv: https://arxiv.org/abs/2209.08539
 
