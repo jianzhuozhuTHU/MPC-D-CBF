@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="novatel_smart7" params="prefix">
+    <link name="${prefix}_navsat">
+      <visual>
+        <origin xyz="-0.095 0 0" rpy="${pi/2} 0 -${pi/2}" />
+        <geometry>
+          <mesh filename="package://jackal_description/meshes/novatel-smart7.stl"/>
+        </geometry>
+        <material name="novatel_white">
+          <color rgba="0.8 0.8 0.8 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="-0.095 0 0" rpy="${pi/2} 0 -${pi/2}" />
+        <geometry>
+          <mesh filename="package://jackal_description/meshes/novatel-smart7.stl"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="novatel_smart7_stand" params="prefix parent height:=14.5 *origin">
+    <link name="${prefix}_navsat_stand">
+      <visual>
+        <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.045 0.025 ${height}" />
+        </geometry>
+        <material name="black" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.045 0.025 ${height}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}_navsat_stand_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${prefix}_navsat_stand" />
+    </joint>
+  </xacro:macro>
+</robot>

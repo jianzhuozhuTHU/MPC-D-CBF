@@ -1,0 +1,46 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find velodyne_description)/urdf/HDL-32E.urdf.xacro" />
+
+  <xacro:macro name="hdl32e_mount" params="prefix parent_link topic tower *origin">    
+    <xacro:if value="${tower}">
+      <link name="${prefix}_hdl32e_mount">
+        <visual>
+          <geometry>
+            <mesh filename="package://jackal_description/meshes/velodyne_tower.stl"/>
+          </geometry>
+          <origin xyz="0 0 0" rpy="0 0 0" /> 
+          <material name="black" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://jackal_description/meshes/velodyne_tower.stl"/>
+          </geometry>
+          <origin xyz="0 0 0" rpy="0 0 0" /> 
+        </collision>
+      </link>
+
+      <joint name="${prefix}_hdl32e_mount_joint" type="fixed">
+        <parent link="${parent_link}" />
+        <child link="${prefix}_hdl32e_mount" />
+        <xacro:insert_block name="origin" />
+      </joint>
+
+      <!-- Velodyne HDL-32E Macro treats Y-axis as forward in pointcloud --> 
+      <xacro:HDL-32E parent="${prefix}_hdl32e_mount" topic="${topic}">
+        <origin xyz="0 0 0.081" rpy="0 0 -1.5707" />
+      </xacro:HDL-32E>
+    </xacro:if>
+    <xacro:unless value="${tower}">
+      <link name="${prefix}_hdl32e_mount"/>
+      <joint name="${prefix}_hdl32e_mount_joint" type="fixed">
+        <parent link="${parent_link}"/>
+        <child link="${prefix}_hdl32e_mount"/>
+        <xacro:insert_block name="origin" />      
+      </joint>
+      <!-- Velodyne HDL-32E Macro treats Y-axis as forward in pointcloud --> 
+      <xacro:HDL-32E parent="${prefix}_hdl32e_mount" topic="${topic}">
+        <origin xyz="0 0 0" rpy="0 0 -1.5707"/>
+      </xacro:HDL-32E>
+    </xacro:unless>
+  </xacro:macro>
+</robot>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="bridge_plate" params="prefix parent height *origin">
+    <link name="${prefix}_bridge_base"/>
+    <joint name="${prefix}_bridge_base_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}_bridge_base" />
+      <xacro:insert_block name="origin" />
+    </joint>
+
+    <joint name="${prefix}_bridge_joint" type="fixed">
+      <parent link="${prefix}_bridge_base"/>
+      <child link="${prefix}_bridge"/>
+      <origin xyz="0.0 0.0 ${height}" rpy="0 0 0"/>
+    </joint>
+
+    <link name="${prefix}_bridge">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5707 0.0 1.5707" />
+        <geometry>
+          <mesh filename="package://jackal_description/meshes/bridge-plate.stl"/>
+        </geometry>
+        <material name="dark_grey" />
+      </visual>
+    </link>
+
+    <xacro:standoff_box prefix="${prefix}" parent="${prefix}_bridge_base" height="${height}" />
+  </xacro:macro>
+</robot>

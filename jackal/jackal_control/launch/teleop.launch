@@ -1,0 +1,25 @@
+<launch>
+  <arg name="joy_dev" default="$(optenv JACKAL_JOY_DEVICE /dev/input/ps4)" />
+  <arg name="joystick" default="true" />
+
+  <group ns="bluetooth_teleop" if="$(arg joystick)">
+
+    <group unless="$(optenv JACKAL_PS3 0)" >
+      <rosparam command="load" file="$(find jackal_control)/config/teleop_ps4.yaml" />
+      <param name="joy_node/dev" value="$(arg joy_dev)" />
+    </group>
+
+    <group if="$(optenv JACKAL_PS3 0)" >
+      <rosparam command="load" file="$(find jackal_control)/config/teleop_ps3.yaml" />
+      <param name="joy_node/dev" value="$(arg joy_dev)" />
+    </group>
+
+    <node pkg="joy" type="joy_node" name="joy_node" />
+
+    <node pkg="teleop_twist_joy" type="teleop_node" name="teleop_twist_joy"/>
+  </group>
+
+  <node pkg="interactive_marker_twist_server" type="marker_server" name="twist_marker_server">
+    <param name="link_name" value="base_link" />
+  </node>
+</launch>
