@@ -1,0 +1,4 @@
+<launch>
+    <node name="local_planner" pkg="local_planner" type="local_planner.py" output="screen"/>
+    <node name="controller" pkg="local_planner" type="controller.py"/>
+</launch>

@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="global_path_publisher" type="global_path_pub" output="screen" name="global_path_pub">  
+        <param name="start_x" value="-10.0"/> 
+        <param name="start_y" value="0.0"/>  
+        <param name="end_x" value="9.0"/>  
+        <param name="end_y" value="0.0"/>   
+    </node>
+
+</launch>

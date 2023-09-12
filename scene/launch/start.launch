@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="world" default="$(find scene)/worlds/map.world"/>
+  <arg name="gui" default="false"/>
+  <arg name="args" default=""/>
+  
+  <param name="/use_sim_time" value="true" />
+
+  <node name="gazebo" pkg="gazebo_ros" type="gzserver" args="$(arg world) $(arg args)" respawn="false" output="screen"/>
+  
+  <!-- start gui -->
+  <group if="$(arg gui)">
+    <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>
+  </group>
+
+  <node pkg="scene" type="getrobot_pose" name="getrobot_pose" output="screen" required="true" />
+
+</launch>

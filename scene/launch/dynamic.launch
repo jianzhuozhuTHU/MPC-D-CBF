@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<launch>
+    <include file="$(find scene)/launch/start.launch">
+        <arg name="world" value="$(find scene)/worlds/world.world" />
+    </include>
+
+    <include file="$(find jackal_description)/launch/description.launch" />
+    <include file="$(find jackal_control)/launch/control.launch">
+        <arg name="enable_ekf" value="false" />
+    </include>
+    <include file="$(find jackal_control)/launch/teleop.launch">
+        <arg name="joystick" value="false" />
+    </include>
+
+    <!-- <node pkg="tf" type="static_transform_publisher" name="world_odom_broadcaster" args="0 0 0 0 0 0 1 world odom 100" /> -->
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model jackal -param robot_description -x -10 -y 0 -z 1.0" />
+
+    <include file="$(find local_map)/launch/for_simulation.launch" />
+
+    <include file="$(find scene)/launch/movetest_node.launch" />
+
+    <node pkg="obs_param" type="obs_kf" output="screen" name="obs_kf" />
+
+    <include file="$(find global_path_publisher)/launch/pub_global_path.launch" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find scene)/rviz_config/simulation.rviz" required="true" />
+
+</launch>
